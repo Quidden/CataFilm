@@ -1,17 +1,8 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Third Party Services
-    |--------------------------------------------------------------------------
-    |
-    | This file is for storing the credentials for third party services such
-    | as Mailgun, Postmark, AWS and more. This file provides the de facto
-    | location for this type of information, allowing packages to have
-    | a conventional file to locate the various service credentials.
-    |
-    */
-
+    'tmdb' => [
+        'base_url' => env('TMDB_BASE_URL', 'https://api.themoviedb.org/3'),
+        'token' => env('TMDB_TOKEN'),
+    ],
 ];
