@@ -1,0 +1,17 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Unable to resolve the template type TKey in call to function collect$#"
+			count: 1
+			path: app/Http/Controllers/Api/MovieController.php
+
+		-
+			message: "#^Unable to resolve the template type TValue in call to function collect$#"
+			count: 1
+			path: app/Http/Controllers/Api/MovieController.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Cache\\\\RateLimiting\\\\Limit\\:\\:by\\(\\) expects string, int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\|null given\\.$#"
+			count: 1
+			path: app/Providers/RouteServiceProvider.php
+
