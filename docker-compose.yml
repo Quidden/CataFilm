@@ -3,7 +3,8 @@ services:
     build:
       context: .
     volumes:
-      - .:/var/www/html
+      - ./.env:/var/www/html/.env:ro
+      - ./database/database.sqlite:/var/www/html/database/database.sqlite
     expose:
       - "9000"
 

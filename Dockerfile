@@ -16,4 +16,8 @@ RUN composer install --no-dev --no-scripts --no-interaction --prefer-dist --no-p
 COPY . .
 RUN composer dump-autoload --optimize
 
+RUN chown -R www-data:www-data /var/www/html
+
+USER www-data
+
 CMD ["php-fpm"]
