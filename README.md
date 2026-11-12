@@ -2,23 +2,28 @@
 Coursework №6  A server-based web application for keeping your own film buff’s diary (a simplified version of Letterboxd)
 
 ## Running the project
-
+### Initial setup
 ```bash
 cp .env.example .env   # skip if .env already exists
-touch database/database.sqlite   # skip if the file already exists
-chmod 666 database/database.sqlite
+touch database/database.sqlite && chmod 666 database/database.sqlite # skip if the file already exists
 
-docker compose up -d --build
+```
+### Development
 
-docker compose exec app php artisan key:generate   # skip if APP_KEY is already set in .env
-docker compose exec app php artisan migrate
-docker compose exec app php artisan db:seed
+```bash
+docker compose -f compose.dev.yaml up --build -d     
+
+docker compose exec workspace composer install
+docker compose exec workspace php artisan migrate
+docker compose exec workspace php artisan db:seed
 ```
 
-The app is served on **http://localhost:8000**.
-
-Notes:
-- `.env` and `database/database.sqlite` are bind-mounted into the `app` container; everything else (code, `vendor/`) baked int the image. so **any code change requires `docker compose up -d --build`**.
+The development applocation is accesible at **http://localhost:8000**.
+### Production
+```bash
+docker compose -f compose.prod.yaml up --build -d   
+```
+The production applocation is accesible at **http://localhost:80**.
 
 ## API documentation (Swagger)
 
