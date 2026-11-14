@@ -2,27 +2,75 @@
 Coursework №6  A server-based web application for keeping your own film buff’s diary (a simplified version of Letterboxd)
 
 ## Running the project
+
 ### Initial setup
+
+Choose the setup commands for your platform and shell.
+
+**[Windows only — PowerShell]**
+
+```powershell
+Copy-Item .env.example .env   # skip if .env already exists
+```
+
+```powershell
+New-Item -ItemType File -Path database/database.sqlite   # skip if the file already exists
+```
+
+**[Linux / macOS / Git Bash]**
+
 ```bash
 cp .env.example .env   # skip if .env already exists
-touch database/database.sqlite && chmod 666 database/database.sqlite # skip if the file already exists
-
 ```
-### Development
 
 ```bash
-docker compose -f compose.dev.yaml up --build -d     
+touch database/database.sqlite   # skip if the file already exists
+```
 
-docker compose exec workspace composer install
-docker compose exec workspace php artisan migrate
-docker compose exec workspace php artisan db:seed
+**[Linux / macOS only]**
+
+```bash
+chmod 666 database/database.sqlite
+```
+
+### Development
+
+**[All platforms]**
+
+```bash
+docker compose -f compose.dev.yaml up --build -d workspace
+```
+
+```bash
+docker compose -f compose.dev.yaml exec workspace composer install
+```
+
+```bash
+docker compose -f compose.dev.yaml exec workspace php artisan key:generate   # skip if APP_KEY is already set in .env
+```
+
+```bash
+docker compose -f compose.dev.yaml exec workspace php artisan migrate
+```
+
+```bash
+docker compose -f compose.dev.yaml exec workspace php artisan db:seed
+```
+
+```bash
+docker compose -f compose.dev.yaml up --build -d app nginx
 ```
 
 The development applocation is accesible at **http://localhost:8000**.
+
 ### Production
+
+**[All platforms]**
+
 ```bash
-docker compose -f compose.prod.yaml up --build -d   
+docker compose -f compose.prod.yaml up --build -d
 ```
+
 The production applocation is accesible at **http://localhost:80**.
 
 ## API documentation (Swagger)
