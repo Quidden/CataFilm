@@ -3,22 +3,75 @@ Coursework №6  A server-based web application for keeping your own film buff�
 
 ## Running the project
 
-```bash
-cp .env.example .env   # skip if .env already exists
-touch database/database.sqlite   # skip if the file already exists
-chmod 666 database/database.sqlite
+### Initial setup
 
-docker compose up -d --build
+Choose the setup commands for your platform and shell.
 
-docker compose exec app php artisan key:generate   # skip if APP_KEY is already set in .env
-docker compose exec app php artisan migrate
-docker compose exec app php artisan db:seed
+**[Windows only — PowerShell]**
+
+```powershell
+Copy-Item .env.example .env   # skip if .env already exists
 ```
 
-The app is served on **http://localhost:8000**.
+```powershell
+New-Item -ItemType File -Path database/database.sqlite   # skip if the file already exists
+```
 
-Notes:
-- `.env` and `database/database.sqlite` are bind-mounted into the `app` container; everything else (code, `vendor/`) baked int the image. so **any code change requires `docker compose up -d --build`**.
+**[Linux / macOS / Git Bash]**
+
+```bash
+cp .env.example .env   # skip if .env already exists
+```
+
+```bash
+touch database/database.sqlite   # skip if the file already exists
+```
+
+**[Linux / macOS only]**
+
+```bash
+chmod 666 database/database.sqlite
+```
+
+### Development
+
+**[All platforms]**
+
+```bash
+docker compose -f compose.dev.yaml up --build -d workspace
+```
+
+```bash
+docker compose -f compose.dev.yaml exec workspace composer install
+```
+
+```bash
+docker compose -f compose.dev.yaml exec workspace php artisan key:generate   # skip if APP_KEY is already set in .env
+```
+
+```bash
+docker compose -f compose.dev.yaml exec workspace php artisan migrate
+```
+
+```bash
+docker compose -f compose.dev.yaml exec workspace php artisan db:seed
+```
+
+```bash
+docker compose -f compose.dev.yaml up --build -d app nginx
+```
+
+The development applocation is accesible at **http://localhost:8000**.
+
+### Production
+
+**[All platforms]**
+
+```bash
+docker compose -f compose.prod.yaml up --build -d
+```
+
+The production applocation is accesible at **http://localhost:80**.
 
 ## API documentation (Swagger)
 

@@ -1,0 +1,39 @@
+services:
+
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped  
+    volumes:
+      - ./docker/common/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    networks:
+      - catafilm-production
+    depends_on:
+      app:
+        condition: service_healthy
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/common/php-fpm/Dockerfile
+      target: production
+    restart: unless-stopped
+    volumes:
+      - ./database/database.sqlite:/var/www/database/database.sqlite
+      - laravel-storage-production:/var/www/storage  
+    env_file:
+      - .env
+    networks:
+      - catafilm-production
+    healthcheck:
+      test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+networks:
+  catafilm-production:
+
+volumes:
+  laravel-storage-production:
