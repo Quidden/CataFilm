@@ -61,7 +61,7 @@ docker compose -f compose.dev.yaml exec workspace php artisan db:seed
 docker compose -f compose.dev.yaml up --build -d app nginx
 ```
 
-The development applocation is accesible at **http://localhost:8000**.
+The development applocation is accesible at **http://localhost:8000**. For database administratration pgadmin runs at **http://localhost:5050** and it's default username and email can be edited in .env file.
 
 ### Production
 
